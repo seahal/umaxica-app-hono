@@ -3,7 +3,7 @@
 
 # __generated__ by Terraform
 resource "fastly_service_compute" "hono_staging" {
-  name          = "reasonably-stunning-gecko.edgecompute.app"
+  name          = "sample"
   force_destroy = true
 
   domain {

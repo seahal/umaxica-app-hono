@@ -24,9 +24,9 @@ locals {
         hostname  = "us.umaxica.${zone}"
         zone_name = "umaxica.${zone}"
       }
-      "umaxica-apps-edge-${zone}-jump" = {
-        service   = "umaxica-apps-edge-${zone}-jump"
-        hostname  = "jump.umaxica.${zone}"
+      "umaxica-apps-edge-${zone}-post" = {
+        service   = "umaxica-apps-edge-${zone}-post"
+        hostname  = "post.umaxica.${zone}"
         zone_name = "umaxica.${zone}"
       }
     }
@@ -50,7 +50,7 @@ resource "cloudflare_workers_custom_domain" "workers" {
   zone_id     = local.zones[each.value.zone_name]
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 

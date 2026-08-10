@@ -10,7 +10,7 @@ locals {
     },
     {
       for zone in ["app", "com", "org"] :
-      "umaxica-apps-edge-${zone}-jump" => {}
+      "umaxica-apps-edge-${zone}-post" => {}
     }
   )
 
@@ -43,13 +43,13 @@ locals {
       contains([
         "umaxica-apps-edge-app-apex",
         "umaxica-apps-edge-app-core",
-        "umaxica-apps-edge-app-jump",
+        "umaxica-apps-edge-app-post",
         "umaxica-apps-edge-com-apex",
         "umaxica-apps-edge-com-core",
-        "umaxica-apps-edge-com-jump",
+        "umaxica-apps-edge-com-post",
         "umaxica-apps-edge-net-apex",
         "umaxica-apps-edge-org-core",
-        "umaxica-apps-edge-org-jump",
+        "umaxica-apps-edge-org-post",
       ], name) ? ["cf:environment=production"] : [],
       ["cf:service=${name}"],
     )
@@ -76,7 +76,7 @@ resource "cloudflare_worker" "workers" {
   tags = local.worker_tags[each.key]
 
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 
@@ -90,11 +90,6 @@ import {
   id = "5acaaaa3264e47d789b8443b8925c4ef"
 }
 
-import {
-  to = cloudflare_worker.workers["umaxica-apps-edge-app-jump"]
-  id = "${var.account_id}/umaxica-apps-edge-app-jump"
-}
-
 
 import {
   to = cloudflare_worker.workers["umaxica-apps-edge-com-apex"]
@@ -104,11 +99,6 @@ import {
 import {
   to = cloudflare_worker.workers["umaxica-apps-edge-com-core"]
   id = "392d8e438e71487083c1cd59ca953b70"
-}
-
-import {
-  to = cloudflare_worker.workers["umaxica-apps-edge-com-jump"]
-  id = "${var.account_id}/umaxica-apps-edge-com-jump"
 }
 
 
@@ -125,10 +115,5 @@ import {
 import {
   to = cloudflare_worker.workers["umaxica-apps-edge-org-core"]
   id = "12df970e8b604ad2959d2089c4ff44fd"
-}
-
-import {
-  to = cloudflare_worker.workers["umaxica-apps-edge-org-jump"]
-  id = "${var.account_id}/umaxica-apps-edge-org-jump"
 }
 
